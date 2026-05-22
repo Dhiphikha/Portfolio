@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dhiphikha R - Portfolio | Artificial Intelligence & Full Stack Developer, UI/UX Designer">
+    <title>Dhiphikha R | Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap');
+        
+        :root {
+            --accent-red: #ff2d55;
+        }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        .tail-container * {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .hero-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(12px);
+        }
+        
+        .section-title {
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: #ff2d55;
+            bottom: -4px;
+            left: 0;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(255 45 85 / 0.25);
+        }
+        
+        .glow-red {
+            text-shadow: 0 0 25px rgb(255 45 85 / 0.5);
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #ff2d55 var(--scroll), transparent var(--scroll));
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="tail-container bg-[#0a0a0a] text-white">
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgress" class="scroll-progress"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar sticky top-0 z-50 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl bg-[#ff2d55] flex items-center justify-center text-white font-bold text-lg sm:text-2xl shadow-lg shadow-[#ff2d55]/50">
+                    DR
+                </div>
+                <h1 class="text-lg sm:text-2xl font-semibold tracking-tighter hero-font">Dhiphikha R</h1>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#home" class="hover:text-[#ff2d55] hover:font-semibold">Home</a>
+                <a href="#about" class="hover:text-[#ff2d55] hover:font-semibold">About</a>
+                <a href="#skills" class="hover:text-[#ff2d55] hover:font-semibold">Skills</a>
+                <a href="#projects" class="hover:text-[#ff2d55] hover:font-semibold">Projects</a>
+                <a href="#experience" class="hover:text-[#ff2d55] hover:font-semibold">Experience</a>
+                <a href="#contact" class="hover:text-[#ff2d55] hover:font-semibold">Contact</a>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-4">
+                <a href="https://github.com" target="_blank" 
+                   class="flex items-center gap-2 px-5 py-2.5 text-sm font-medium border border-white/20 hover:border-[#ff2d55] rounded-3xl">
+                    <span>GitHub</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 4L2 8l4 4" />
+                    </svg>
+                </a>
+                
+                <!-- Resume Download -->
+                <button onclick="downloadResume()" 
+                        class="flex items-center gap-2 bg-[#ff2d55] hover:bg-[#ff4d70] text-white px-6 py-2.5 rounded-3xl text-sm font-semibold shadow-lg shadow-[#ff2d55]/40">
+                    <span>Download CV</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v-4m0 0l4 4m-4-4l4-4m12 0v4m0 0l-4-4m4 4l-4 4" />
+                    </svg>
+                </button>
+
+                <!-- Mobile Hamburger -->
+                <button id="mobileMenuBtn" class="md:hidden w-10 h-10 flex items-center justify-center text-2xl">
+                    <span id="hamburger">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-[#0a0a0a] border-t border-white/10 px-6 py-4">
+            <div class="flex flex-col gap-4 text-sm font-medium">
+                <a href="#home" onclick="toggleMobileMenu()" class="py-2 hover:text-[#ff2d55]">Home</a>
+                <a href="#about" onclick="toggleMobileMenu()" class="py-2 hover:text-[#ff2d55]">About</a>
+                <a href="#skills" onclick="toggleMobileMenu()" class="py-2 hover:text-[#ff2d55]">Skills</a>
+                <a href="#projects" onclick="toggleMobileMenu()" class="py-2 hover:text-[#ff2d55]">Projects</a>
+                <a href="#experience" onclick="toggleMobileMenu()" class="py-2 hover:text-[#ff2d55]">Experience</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="py-2 hover:text-[#ff2d55]">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="min-h-screen flex items-center bg-gradient-to-br from-[#0a0a0a] via-[#111111] to-[#0a0a0a] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div class="space-y-8 pt-20 md:pt-0">
+                <div class="inline-flex items-center gap-2 bg-white/10 text-white text-sm font-medium px-5 py-2 rounded-3xl border border-white/10">
+                    <div class="w-2 h-2 bg-[#ff2d55] rounded-full animate-pulse"></div>
+                    AVAILABLE FOR FREELANCE • VELLORE, INDIA
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold hero-font leading-none tracking-tighter glow-red">
+                    Dhiphikha<br>Rajasekar
+                </h1>
+                
+                <p class="text-xl md:text-3xl lg:text-4xl text-zinc-400 font-medium">
+                    AI & Full Stack Developer, UI/UX Designer
+                </p>
+                
+                <p class="max-w-lg text-zinc-400 text-lg">
+                    Building intelligent digital solutions with AI, data science, and modern web technologies. Passionate about innovation, problem-solving, and creating impactful user experiences.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                    <a href="#projects" 
+                       class="inline-flex items-center justify-center bg-[#ff2d55] hover:bg-[#ff4d70] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-3xl text-base sm:text-lg font-semibold shadow-2xl shadow-[#ff2d55]/50">
+                        View My Work
+                    </a>
+                    
+                    <a href="#contact" 
+                       class="inline-flex items-center justify-center border-2 border-white/30 hover:border-[#ff2d55] hover:text-[#ff2d55] px-6 sm:px-8 py-3 sm:py-4 rounded-3xl text-base sm:text-lg font-medium">
+                        Let's Connect
+                    </a>
+                </div>
+                
+                <!-- Social Proof -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 pt-6">
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-semibold text-[#ff2d55]">10+</div>
+                        <div class="text-zinc-400 text-sm">Projects Completed</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-semibold text-[#ff2d55]">2</div>
+                        <div class="text-zinc-400 text-sm">Happy Clients</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl md:text-4xl font-semibold text-[#ff2d55]">1</div>
+                        <div class="text-zinc-400 text-sm">Open Source Contributions</div>
+                    </div>
+                </div>
+                
+                <!-- X Handle -->
+                <div class="flex items-center gap-2 text-sm">
+                    <span class="text-zinc-400">Follow me on linkedIn:</span>
+                    <a href="https://www.linkedin.com/in/dhiphikha-rajasekar" target="_blank" class="flex items-center gap-1 text-[#ff2d55] hover:underline">
+                        @dhiphikha-rajasekar
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L9 15" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right Visual -->
+            <div class="relative hidden md:flex justify-center items-center">
+                <div class="w-96 h-96 bg-gradient-to-br from-[#ff2d55]/20 to-transparent rounded-[4rem] rotate-12 absolute"></div>
+                <div class="relative w-80 h-80 bg-[#111111] border border-[#ff2d55]/30 rounded-3xl flex items-center justify-center overflow-hidden shadow-2xl">
+                
+                <!-- Profile Visual -->
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto rounded-2xl overflow-hidden shadow-inner mb-6">
+                        <img
+                            id="profile-photo"
+                            src="https://1drv.ms/i/c/27c0e1e81ed88cd4/IQBYXAKcGlIpSZtV-it8JTagAcumODuMWTCah0dY4JOOXkU?e=aGNzAv"
+                            alt="Profile photo"
+                            class="w-full h-full object-cover"
+                        >
+                    </div>
+                    <input
+                        id="profile-upload"
+                        type="file"
+                        accept="image/jpeg,image/png"
+                        class="hidden"
+                        hidden
+                    >
+                    <p class="text-2xl font-semibold hero-font">Dhiphikha Rajasekar</p>
+                    <p class="text-zinc-400">Building the future</p>
+                </div>
+
+                    <!-- Floating badges -->
+                    <div class="absolute -top-6 -right-6 bg-[#111] text-[#ff2d55] text-xs font-bold px-6 py-2 rounded-3xl shadow-xl rotate-12">NEXT.JS</div>
+                    <div class="absolute -bottom-6 -left-6 bg-[#111] text-[#ff2d55] text-xs font-bold px-6 py-2 rounded-3xl shadow-xl -rotate-12"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-12 left-1/2 hidden md:flex flex-col items-center gap-2">
+            <p class="text-xs uppercase tracking-[2px] text-zinc-400">Scroll to explore</p>
+            <div class="w-px h-12 bg-gradient-to-b from-transparent via-[#ff2d55] to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-16 sm:py-20 md:py-24 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-12 gap-16 items-center">
+                <div class="md:col-span-5">
+                    <h2 class="section-title text-3xl sm:text-4xl md:text-5xl font-semibold hero-font mb-6">About Me</h2>
+                    <p class="text-zinc-400 text-lg leading-relaxed">
+                        Hi, I'm Dhiphikha Rajasekar, an aspiring Artificial Intelligence & Data Science Developer passionate about building intelligent digital solutions and modern web applications. With a strong interest in AI, machine learning, and emerging technologies, I enjoy creating innovative projects that solve real-world problems.
+                    </p>
+                    <p class="text-zinc-400 text-lg leading-relaxed mt-6">
+                        Currently pursuing my studies in Artificial Intelligence and Data Science, I continuously explore AI-powered applications, data-driven systems, and modern web technologies. I’m also passionate about UI/UX design, creative development, and turning ideas into impactful digital experiences.
+                    </p>
+                    
+                    <div class="mt-10 flex items-center gap-4">
+                        <div class="flex -space-x-4">
+                            <div class="w-10 h-10 bg-[#ff2d55] rounded-2xl flex items-center justify-center text-xs ring-4 ring-[#0a0a0a]">TS</div>
+                            <div class="w-10 h-10 bg-zinc-700 rounded-2xl flex items-center justify-center text-xs ring-4 ring-[#0a0a0a]">JS</div>
+                        </div>
+                        <div>
+                            <p class="font-medium">Currently learning</p>
+                            <p class="text-sm text-zinc-400">AI &amp; Machine Learning Integration</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-7">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div class="bg-[#111111] p-6 sm:p-8 rounded-3xl border border-white/10">
+                            <div class="text-[#ff2d55] text-4xl sm:text-5xl mb-4">🎨</div>
+                            <h4 class="text-xl sm:text-2xl font-semibold mb-2">AI Powered</h4>
+                            <p class="text-zinc-400">Developing intelligent applications with AI, Machine Learning, and automation.</p>
+                        </div>
+                        <div class="bg-[#111111] p-6 sm:p-8 rounded-3xl border border-white/10">
+                            <div class="text-[#ff2d55] text-4xl sm:text-5xl mb-4">⚡</div>
+                            <h4 class="text-xl sm:text-2xl font-semibold mb-2">Smart Solutions</h4>
+                            <p class="text-zinc-400">Creating scalable and efficient systems with modern technologies and data-driven approaches.</p>
+                        </div>
+                        <div class="bg-[#111111] p-6 sm:p-8 rounded-3xl border border-white/10">
+                            <div class="text-[#ff2d55] text-4xl sm:text-5xl mb-4">🌍</div>
+                            <h4 class="text-xl sm:text-2xl font-semibold mb-2">Growth Mindset</h4>
+                            <p class="text-zinc-400">Always learning new technologies, frameworks, and AI advancements.</p>
+                        </div>
+                        <div class="bg-[#111111] p-6 sm:p-8 rounded-3xl border border-white/10">
+                            <div class="text-[#ff2d55] text-4xl sm:text-5xl mb-4">🔥</div>
+                            <h4 class="text-xl sm:text-2xl font-semibold mb-2">Innovation First</h4>
+                            <p class="text-zinc-400">Turning ideas into impactful digital experiences through creativity and technology.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="py-16 sm:py-20 md:py-24 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="section-title text-3xl sm:text-4xl md:text-5xl font-semibold hero-font mb-12 text-center">Skills &amp; Technologies</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
+                <!-- Skill Card 1 -->
+                <div class="bg-[#0a0a0a] rounded-3xl p-6 sm:p-8 text-center border border-white/10 card-hover">
+                    <div class="text-5xl sm:text-6xl mb-6">🌐</div>
+                    <h4 class="font-semibold text-lg sm:text-xl mb-2">Frontend</h4>
+                    <p class="text-[#ff2d55] text-xs sm:text-sm">HTML • CSS • JavaScript • React</p>
+                </div>
+                
+                <!-- Skill Card 2 -->
+                <div class="bg-[#0a0a0a] rounded-3xl p-6 sm:p-8 text-center border border-white/10 card-hover">
+                    <div class="text-5xl sm:text-6xl mb-6">🔧</div>
+                    <h4 class="font-semibold text-lg sm:text-xl mb-2">Backend</h4>
+                    <p class="text-[#ff2d55] text-xs sm:text-sm">Python • Flask • Django • Node.js</p>
+                </div>
+                
+                <!-- Skill Card 3 -->
+                <div class="bg-[#0a0a0a] rounded-3xl p-6 sm:p-8 text-center border border-white/10 card-hover">
+                    <div class="text-5xl sm:text-6xl mb-6">🗄️</div>
+                    <h4 class="font-semibold text-lg sm:text-xl mb-2">Database</h4>
+                    <p class="text-[#ff2d55] text-xs sm:text-sm">MySQL • MongoDB • Firebase</p>
+                </div>
+                
+                <!-- Skill Card 4 -->
+                <div class="bg-[#0a0a0a] rounded-3xl p-6 sm:p-8 text-center border border-white/10 card-hover">
+                    <div class="text-5xl sm:text-6xl mb-6">🎨</div>
+                    <h4 class="font-semibold text-lg sm:text-xl mb-2">Design</h4>
+                    <p class="text-[#ff2d55] text-xs sm:text-sm">Figma • Canva • UI/UX</p>
+                </div>
+                
+                <!-- Skill Card 5 -->
+                <div class="bg-[#0a0a0a] rounded-3xl p-6 sm:p-8 text-center border border-white/10 card-hover">
+                    <div class="text-5xl sm:text-6xl mb-6">☁️</div>
+                    <h4 class="font-semibold text-lg sm:text-xl mb-2">Cloud</h4>
+                    <p class="text-[#ff2d55] text-xs sm:text-sm">GitHub • Vercel • Google Colab</p>
+                </div>
+                
+                <!-- Skill Card 6 -->
+                <div class="bg-[#0a0a0a] rounded-3xl p-6 sm:p-8 text-center border border-white/10 card-hover">
+                    <div class="text-5xl sm:text-6xl mb-6">📱</div>
+                    <h4 class="font-semibold text-lg sm:text-xl mb-2">Mobile</h4>
+                    <p class="text-[#ff2d55] text-xs sm:text-sm">Responsive Design • React Native • Flutter Basics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="py-16 sm:py-20 md:py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <h2 class="section-title text-3xl sm:text-4xl md:text-5xl font-semibold hero-font">Featured Projects</h2>
+                <a href="#" class="text-[#ff2d55] flex items-center gap-2 font-medium">
+                    View all projects 
+                    <span class="text-xl">→</span>
+                </a>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Project 1 -->
+                <div class="bg-[#111111] rounded-3xl overflow-hidden card-hover group">
+                    <div class="h-48 sm:h-64 bg-gradient-to-br from-[#ff2d55] to-red-700 flex items-center justify-center text-5xl sm:text-7xl group-hover:scale-110">
+                       ✌️ 
+                    </div>
+                    <div class="p-6 sm:p-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-2xl font-semibold">Sign Language Detection App</h3>
+                                <p class="text-zinc-400 text-sm">AI-powered gesture recognition platform.</p>
+                            </div>
+                            <span class="text-xs bg-[#ff2d55]/10 text-[#ff2d55] px-3 py-1 rounded-2xl">2026</span>
+                        </div>
+                        <p class="mt-6 text-zinc-400 line-clamp-3">
+                            Built a AI-powered application that detects and interprets sign language gestures in real time using computer vision and machine learning.
+                        </p>
+                        <div class="flex gap-2 mt-8">
+                            <span class="text-xs bg-white/10 px-4 py-1 rounded-3xl">Next.js</span>
+                            <span class="text-xs bg-white/10 px-4 py-1 rounded-3xl">Tailwind</span>
+                            <span class="text-xs bg-white/10 px-4 py-1 rounded-3xl">PostgreSQL</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-[#111111] rounded-3xl overflow-hidden card-hover group">
+                    <div class="h-48 sm:h-64 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center text-5xl sm:text-7xl group-hover:scale-110">
+                        🏋🏻
+                    </div>
+                    <div class="p-6 sm:p-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-semibold">AI Fitness Tracker App</h3>
+                                <p class="text-zinc-400 text-sm">Smart AI-based fitness monitoring platform.</p>
+                            </div>
+                            <span class="text-xs bg-[#ff2d55]/10 text-[#ff2d55] px-3 py-1 rounded-2xl">2025</span>
+                        </div>
+                        <p class="mt-6 text-zinc-400 line-clamp-3">
+                            AI-powered fitness tracking application with smart workout monitoring, body analysis, and personalized fitness insights.
+                        </p>
+                        <div class="flex gap-2 mt-8">
+                            <span class="text-xs bg-white/10 px-3 sm:px-4 py-1 rounded-3xl">React</span>
+                            <span class="text-xs bg-white/10 px-3 sm:px-4 py-1 rounded-3xl">Chart.js</span>
+                            <span class="text-xs bg-white/10 px-3 sm:px-4 py-1 rounded-3xl">Supabase</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-[#111111] rounded-3xl overflow-hidden card-hover group">
+                    <div class="h-48 sm:h-64 bg-gradient-to-br from-black to-[#ff2d55]/30 flex items-center justify-center text-5xl sm:text-7xl group-hover:scale-110">
+                        🎬
+                    </div>
+                    <div class="p-6 sm:p-8">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-semibold">Sheldon’s Last Login</h3>
+                                <p class="text-zinc-400 text-sm">AI-driven sci-fi emotional storytelling project.</p>
+                            </div>
+                            <span class="text-xs bg-[#ff2d55]/10 text-[#ff2d55] px-3 py-1 rounded-2xl">2024</span>
+                        </div>
+                        <p class="mt-6 text-zinc-400 line-clamp-3">
+                            AI-powered sci-fi family drama short film exploring the emotional connection between technology, parenting, and human relationships through creative storytelling and cinematic visuals.
+                        </p>
+                        <div class="flex gap-2 mt-8">
+                            <span class="text-xs bg-white/10 px-3 sm:px-4 py-1 rounded-3xl">Flutter</span>
+                            <span class="text-xs bg-white/10 px-3 sm:px-4 py-1 rounded-3xl">Firebase</span>
+                            <span class="text-xs bg-white/10 px-3 sm:px-4 py-1 rounded-3xl">Maps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience" class="py-16 sm:py-20 md:py-24 bg-[#111111]">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="section-title text-3xl sm:text-4xl md:text-5xl font-semibold hero-font mb-12">Experience</h2>
+            
+            <div class="space-y-12">
+                <div class="flex flex-col md:flex-row gap-8 border-l-4 border-[#ff2d55] pl-8">
+                    <div class="md:w-64 text-zinc-400 text-sm">
+                        <div class="font-medium">July 2025(1 Month)</div>
+                        <div class="text-[#ff2d55]">Strydo Technologies Pvt. Ltd.</div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold">Full Stack Web Development Intern</h3>
+                        <ul class="mt-4 space-y-3 text-zinc-400">
+                            <li class="flex gap-3">• Developed responsive front-end interfaces using HTML, CSS, and JavaScript.</li>
+                            <li class="flex gap-3">• Built efficient back-end systems with Node.js, Express, and databases (MongoDB / MySQL).</li>
+                            <li class="flex gap-3">• Gained hands-on experience in full-stack development practices and real-world project workflows.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-8 border-l-4 border-white/30 pl-8">
+                    <div class="md:w-64 text-zinc-400 text-sm">
+                        <div class="font-medium">Jan 2025 - May 2025 (5 Months)</div>
+                        <div>Coursera(IBM)</div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold">IBM Certified Professional</h3>
+                        <ul class="mt-4 space-y-3 text-zinc-400">
+                            <li class="flex gap-3">• Completed Python for Data Science, AI & Development.</li>
+                            <li class="flex gap-3">• Completed Data Visualization with Python.</li>
+                            <li class="flex gap-3">• Completed Introduction to Artificial Intelligence.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-16 sm:py-20 md:py-24">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-[#111111] rounded-3xl p-12 md:p-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold hero-font">Let's build something amazing</h2>
+                    <p class="text-zinc-400 mt-3">Have a project in mind? Drop me a message.</p>
+                </div>
+                
+                <form id="contactForm" class="space-y-8">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm text-zinc-400 mb-2">Your Name</label>
+                            <input type="text" id="name" required 
+                                   class="w-full bg-[#0a0a0a] border border-white/10 focus:border-[#ff2d55] rounded-3xl px-6 py-4 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-zinc-400 mb-2">Email Address</label>
+                            <input type="email" id="email" required 
+                                   class="w-full bg-[#0a0a0a] border border-white/10 focus:border-[#ff2d55] rounded-3xl px-6 py-4 outline-none">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm text-zinc-400 mb-2">Project / Message</label>
+                        <textarea id="message" rows="6" required
+                                  class="w-full bg-[#0a0a0a] border border-white/10 focus:border-[#ff2d55] rounded-3xl px-6 py-4 outline-none resize-none"></textarea>
+                    </div>
+                    
+                    <button type="submit"
+                            class="w-full bg-[#ff2d55] hover:bg-[#ff4d70] py-6 rounded-3xl text-lg font-semibold flex items-center justify-center gap-3">
+                        SEND MESSAGE
+                        <span class="text-2xl">→</span>
+                    </button>
+                </form>
+            </div>
+            
+            <div class="text-center text-zinc-400 text-sm mt-8">
+                Or email me directly at <span class="text-[#ff2d55]">dhiphikha23@gmail.com</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-white/10 py-12 sm:py-16">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex justify-center items-center gap-3 mb-8">
+                <div class="w-9 h-9 rounded-2xl bg-[#ff2d55] flex items-center justify-center text-white text-2xl">DR</div>
+                <span class="text-2xl font-semibold hero-font">Dhiphikha Rajasekar</span>
+            </div>
+            
+            <p class="text-zinc-400">© 2026 Dhiphikha Raj • Made with ❤️ and lots of red</p>
+            
+            <div class="flex justify-center gap-4 sm:gap-6 md:gap-8 mt-10 text-sm">
+                <a href="https://x.com/Dhiphikha_Raj" target="_blank" class="hover:text-[#ff2d55]">X</a>
+                <a href="#" class="hover:text-[#ff2d55]">LinkedIn</a>
+                <a href="#" class="hover:text-[#ff2d55]">Instagram</a>
+                <a href="#" class="hover:text-[#ff2d55]">GitHub</a>
+                <a href="#" class="hover:text-[#ff2d55]">Behance</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script initialization
+        function initializeTailwind() {
+            return {
+                config(userConfig = {}) {
+                    return {
+                        content: [],
+                        theme: {
+                            extend: {},
+                        },
+                        plugins: [],
+                        ...userConfig,
+                    }
+                },
+                theme(userTheme = {}) {
+                    return {
+                        ...userTheme,
+                    }
+                },
+            }
+        }
+        
+        // Initialize Tailwind
+        document.addEventListener('DOMContentLoaded', () => {
+            return initializeTailwind().config({
+                theme: {
+                    extend: {
+                        colors: {
+                            accent: '#ff2d55'
+                        }
+                    }
+                }
+            })
+        })
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu')
+            const btn = document.getElementById('hamburger')
+            menu.classList.toggle('hidden')
+            
+            if (btn.textContent === '☰') {
+                btn.textContent = '✕'
+            } else {
+                btn.textContent = '☰'
+            }
+        }
+        
+        // Attach mobile menu event
+        document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu)
+        
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+            const scrolled = (winScroll / height) * 100
+            document.getElementById('scrollProgress').style.setProperty('--scroll', scrolled + '%')
+        })
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') === '#') return
+                e.preventDefault()
+                const target = document.querySelector(this.getAttribute('href'))
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    })
+                }
+            })
+        })
+        
+        // Contact form handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault()
+            
+            // Simulate sending
+            const btn = this.querySelector('button')
+            const originalText = btn.innerHTML
+            
+            btn.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+            `
+            setTimeout(() => {
+                btn.classList.add('!bg-green-600')
+                btn.innerHTML = `✅ Message Sent!`
+                
+                setTimeout(() => {
+                    this.reset()
+                    btn.classList.remove('!bg-green-600')
+                    btn.innerHTML = originalText
+                    
+                    // Show success toast
+                    const toast = document.createElement('div')
+                    toast.style.cssText = 'position:fixed; bottom:24px; right:24px; background:#ff2d55; color:white; padding:16px 24px; border-radius:9999px; box-shadow:0 10px 15px -3px rgb(255 45 85);'
+                    toast.textContent = 'Thank you! I will reply within 24 hours.'
+                    document.body.appendChild(toast)
+                    
+                    setTimeout(() => {
+                        toast.style.transitionDuration = '300ms'
+                        toast.style.opacity = '0'
+                        setTimeout(() => toast.remove(), 300)
+                    }, 3000)
+                }, 2000)
+            }, 1800)
+        })
+        
+        // Fake resume download
+        function downloadResume() {
+            const link = document.createElement('a')
+            link.href = '#' // In real use, replace with actual PDF link
+            link.download = 'Dhiphikha_Rajasekar_Resume.pdf'
+            link.click()
+            
+            // Show nice message
+            const msg = document.createElement('div')
+            msg.style.cssText = 'position:fixed; top:24px; right:24px; background:#111111; color:#ff2d55; padding:12px 24px; border-radius:9999px; border:2px solid #ff2d55; font-weight:600;'
+            msg.textContent = '📄 Resume downloaded! (Customize the link in code)'
+            document.body.appendChild(msg)
+            
+            setTimeout(() => {
+                msg.style.opacity = '0'
+                setTimeout(() => msg.remove(), 400)
+            }, 2800)
+        }
+
+        const profileUpload = document.getElementById('profile-upload')
+        const profilePhoto = document.getElementById('profile-photo')
+        const storageKey = 'profilePhotoDataUrl'
+
+        function loadSavedProfilePhoto() {
+            const savedDataUrl = localStorage.getItem(storageKey)
+            if (savedDataUrl) {
+                profilePhoto.src = savedDataUrl
+                profilePhoto.alt = 'Saved profile image'
+            }
+        }
+
+        function saveProfilePhoto(dataUrl) {
+            try {
+                localStorage.setItem(storageKey, dataUrl)
+            } catch (error) {
+                console.warn('Unable to save profile image to localStorage:', error)
+            }
+        }
+
+        profilePhoto.style.cursor = 'pointer'
+        profilePhoto.title = 'Click to upload a new profile image'
+        profilePhoto.addEventListener('click', () => profileUpload.click())
+
+        profileUpload.addEventListener('change', function (e) {
+            const file = e.target.files && e.target.files[0]
+            if (!file) return
+
+            const reader = new FileReader()
+            reader.onload = function () {
+                const dataUrl = reader.result
+                profilePhoto.src = dataUrl
+                profilePhoto.alt = file.name
+                saveProfilePhoto(dataUrl)
+            }
+            reader.readAsDataURL(file)
+        })
+
+        loadSavedProfilePhoto()
+        
+        console.log('%c✅ Portfolio loaded successfully! Black & Red theme ready.', 'color:#ff2d55; font-weight:700; font-size:13px')
+    </script>
+</body>
+</html>
